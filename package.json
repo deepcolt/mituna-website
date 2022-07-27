@@ -12,6 +12,7 @@
     "@types/react-dom": "^18.0.0",
     "gsap": "^3.10.4",
     "react": "^18.2.0",
+    "react-device-detect": "^2.2.2",
     "react-dom": "^18.2.0",
     "react-router-dom": "^6.3.0",
     "react-scripts": "5.0.1",
@@ -45,6 +46,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react-hammerjs": "^1.0.4",
     "@types/styled-components": "^5.1.25"
   }
 }

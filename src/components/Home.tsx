@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react';
 import gsap from "gsap";
 import styled from 'styled-components';
+import { isMobile } from 'react-device-detect';
 import mainBackgroundImage from "../assets/images/angelo-moleele-s2WxsnxeRc4-unsplash.jpg";
 import iphone from "../assets/images/iphone.png";
 import chatBubble from "../assets/images/icons8-chat-40.png";
@@ -20,7 +21,7 @@ const Container = styled.div`
   padding: 20px 30px;
 
   @media (max-width: 768px) {
-    padding: 10px 10px;
+    padding: 0;
   }
 `
 
@@ -35,6 +36,10 @@ const Main = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media (max-width: 768px) {
+    border-radius: 0;
+  }
 `
 
 const MainOverlay = styled.div`
@@ -45,6 +50,10 @@ const MainOverlay = styled.div`
   left: 0;
   background-color: rgba(0, 0, 0, 0.5);
   border-radius: 30px;
+
+  @media (max-width: 768px) {
+    border-radius: 0;
+  }
 `;
 
 const PhoneContainer = styled.div`
@@ -247,171 +256,195 @@ const SlideControl = styled.div<{ selected: boolean }>`
 
 
 export default function Home(): React.ReactElement {
-    const sectionsTitleTexts: string[] = ["Rapide et Fiable", "Défiez vos amis", "Annastasie et IA"];
-    const sectionsDescriptionTexts: string[] = ["Bongola Chat vous permets de discuter et faire des appels à travers le monde.", "Défiez vos amis avec notre collection des jeux pour une exprérience de discussions plus captivante.", "Intelligence Artificielle est au coeur de Bongola chat, découvrez les fonctionnalités de l'IA."];
-    const sectionsNumeratedTitleTexts = [
-        { top: "Traduisez", "bottom": "les messsages" },
-        { top: "Passez", "bottom": "un bon moment" },
-        { top: "Intelligence", "bottom": "Artificielle" },
-    ];
-    const titleIcons = [chatBubble, games, chatbot];
+  const sectionsTitleTexts: string[] = ["Rapide et Fiable", "Défiez vos amis", "Annastasie et IA"];
+  const sectionsDescriptionTexts: string[] = ["Bongola Chat vous permets de discuter et faire des appels à travers le monde.", "Défiez vos amis avec notre collection des jeux pour une exprérience de discussions plus captivante.", "Intelligence Artificielle est au coeur de Bongola chat, découvrez les fonctionnalités de l'IA."];
+  const sectionsNumeratedTitleTexts = [
+    { top: "Traduisez", "bottom": "les messsages" },
+    { top: "Passez", "bottom": "un bon moment" },
+    { top: "Intelligence", "bottom": "Artificielle" },
+  ];
+  const titleIcons = [chatBubble, games, chatbot];
 
-    const svgRef = useRef<SVGSVGElement>(null);
-    const sectionTitleRef = useRef<HTMLDivElement>(null);
-    const sectionNumTitleRef = useRef<HTMLDivElement>(null);
-    const downloadSectionRef = useRef<HTMLDivElement>(null);
-    const giantTitleRef = useRef<HTMLDivElement>(null);
-    const screenShotOneRef = useRef<HTMLImageElement>(null);
-    const screenShotTwoRef = useRef<HTMLImageElement>(null);
-    const screenShotThreeRef = useRef<HTMLImageElement>(null);
+  const svgRef = useRef<SVGSVGElement>(null);
+  const sectionTitleRef = useRef<HTMLDivElement>(null);
+  const sectionNumTitleRef = useRef<HTMLDivElement>(null);
+  const downloadSectionRef = useRef<HTMLDivElement>(null);
+  const giantTitleRef = useRef<HTMLDivElement>(null);
+  const screenShotOneRef = useRef<HTMLImageElement>(null);
+  const screenShotTwoRef = useRef<HTMLImageElement>(null);
+  const screenShotThreeRef = useRef<HTMLImageElement>(null);
 
-    const [svgTopPosition, setTopSvgPosition] = useState(false);
-    const [wheelPause, setWheelPause] = useState(false);
-    const [page, setPage] = useState(0);
-    const [oldPage, setOldPage] = useState(-1);
+  const [svgTopPosition, setTopSvgPosition] = useState(false);
+  const [wheelPause, setWheelPause] = useState(false);
+  const [page, setPage] = useState(0);
+  const [oldPage, setOldPage] = useState(-1);
+  const [touchstartY, setTouchStartY] = useState(0);
 
-    const handleTransition = useCallback((index: number) => {
-        if (index > 2 || index < 0) return;
-        setOldPage(page);
-        setPage(index)
-        setTopSvgPosition((index % 2) !== 0);
-    }, [page]);
+  const handleTransition = useCallback((index: number) => {
+    if (index > 2 || index < 0) return;
+    setOldPage(page);
+    setPage(index)
+    setTopSvgPosition((index % 2) !== 0);
+  }, [page]);
 
 
-    const handleKeyPressed = useCallback((e: KeyboardEvent) => {
-        console.log(e.key);
-        if (e.key === "ArrowUp") {
-            handleTransition(page + 1);
-        } else if (e.key === "ArrowDown") {
-            handleTransition(page - 1);
-        }
-    }, [handleTransition, page]);
+  const handleKeyPressed = useCallback((e: KeyboardEvent) => {
+    console.log(e.key);
+    if (e.key === "ArrowUp") {
+      handleTransition(page + 1);
+    } else if (e.key === "ArrowDown") {
+      handleTransition(page - 1);
+    }
+  }, [handleTransition, page]);
 
-    const fromLeftToRight = (element: HTMLElement | null) => {
-        gsap.to(element, { x: -1000, opacity: 0 }).then(() => {
-            setTimeout(() => {
-                gsap.to(element, { x: 0, opacity: 1, ease: gsap.parseEase("back") });
-            }, 500);
+  const fromLeftToRight = (element: HTMLElement | null) => {
+    gsap.to(element, { x: -1000, opacity: 0 }).then(() => {
+      setTimeout(() => {
+        gsap.to(element, { x: 0, opacity: 1, ease: gsap.parseEase("back") });
+      }, 500);
+    });
+  }
+
+  const animation = useCallback(() => {
+    fromLeftToRight(sectionTitleRef.current);
+    fromLeftToRight(sectionNumTitleRef.current);
+    const giantsOffsets = [1000, -1000, 1000];
+
+    if (oldPage > 0) {
+
+      const oldScreen = [screenShotOneRef, screenShotTwoRef, screenShotThreeRef][oldPage];
+
+      gsap.to(oldScreen.current, { x: 100, opacity: 0 }).then(() => {
+        gsap.to(oldScreen.current, { x: 0 }).then(() => {
+          gsap.to(oldScreen.current, { opacity: 1 });
         });
+      });
     }
 
-    const animation = useCallback(() => {
-        fromLeftToRight(sectionTitleRef.current);
-        fromLeftToRight(sectionNumTitleRef.current);
-        const giantsOffsets = [1000, -1000, 1000];
 
-        if (oldPage > 0) {
+    gsap.to(downloadSectionRef.current, { y: giantsOffsets[page], opacity: 0 }).then(() => {
+      setTimeout(() => {
+        gsap.to(downloadSectionRef.current, { y: 0, opacity: 1, ease: gsap.parseEase("power3") });
+      }, 500);
+    });
 
-            const oldScreen = [screenShotOneRef, screenShotTwoRef, screenShotThreeRef][oldPage];
+    gsap.to(giantTitleRef.current, { y: giantsOffsets[page], opacity: 0 }).then(() => {
+      setTimeout(() => {
+        gsap.to(giantTitleRef.current, { y: 0, opacity: 1, ease: gsap.parseEase("power3") });
+      }, 500);
+    });
+  }, [oldPage, page]);
 
-            gsap.to(oldScreen.current, { x: 100, opacity: 0 }).then(() => {
-                gsap.to(oldScreen.current, { x: 0 }).then(() => {
-                    gsap.to(oldScreen.current, { opacity: 1 });
-                });
-            });
-        }
-
-
-        gsap.to(downloadSectionRef.current, { y: giantsOffsets[page], opacity: 0 }).then(() => {
-            setTimeout(() => {
-                gsap.to(downloadSectionRef.current, { y: 0, opacity: 1, ease: gsap.parseEase("power3") });
-            }, 500);
-        });
-
-        gsap.to(giantTitleRef.current, { y: giantsOffsets[page], opacity: 0 }).then(() => {
-            setTimeout(() => {
-                gsap.to(giantTitleRef.current, { y: 0, opacity: 1, ease: gsap.parseEase("power3") });
-            }, 500);
-        });
-    }, [oldPage, page]);
-
-    useEffect(() => {
-        animation();
-    }, [animation]);
+  useEffect(() => {
+    animation();
+  }, [animation]);
 
 
-    useEffect(() => {
-        window.addEventListener('keydown', handleKeyPressed);
-        return () => {
-            window.removeEventListener('keydown', handleKeyPressed);
-        }
-    }, [handleKeyPressed]);
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyPressed);
+    return () => {
+      window.removeEventListener('keydown', handleKeyPressed);
+    }
+  }, [handleKeyPressed]);
 
-    const handleNavigation = useCallback((event: WheelEvent) => {
-        console.log(page, event.deltaY)
-        if (wheelPause) return;
-        setWheelPause(true);
-        if (event.deltaY > 0) {
-            handleTransition(page + 1);
-        } else {
-            handleTransition(page - 1);
-        }
-        setTimeout(() => {
-            setWheelPause(false);
-        }, 1000);
-    }, [handleTransition, page, wheelPause]);
+  const handleNavigation = useCallback((event: WheelEvent) => {
+    console.log(page, event.deltaY)
+    if (wheelPause) return;
+    setWheelPause(true);
+    if (event.deltaY > 0) {
+      handleTransition(page + 1);
+    } else {
+      handleTransition(page - 1);
+    }
+    setTimeout(() => {
+      setWheelPause(false);
+    }, 1000);
+  }, [handleTransition, page, wheelPause]);
 
-    useEffect(() => {
-        document.addEventListener("wheel", (e) => handleNavigation(e));
+  useEffect(() => {
+    document.addEventListener("wheel", (e) => handleNavigation(e));
 
-        return () => { // return a cleanup function to unregister our function since its gonna run multiple times
-            document.removeEventListener("wheel", (e) => handleNavigation(e));
-        };
-    }, [handleNavigation]);
+    return () => { // return a cleanup function to unregister our function since its gonna run multiple times
+      document.removeEventListener("wheel", (e) => handleNavigation(e));
+    };
+  }, [handleNavigation]);
 
-    
-    useEffect(() => {
-      document.title = "Bongola Chat"
-    }, [])
 
-    return (
-        <Container>
-            <Main>
-                <MainOverlay />
-                <GiantTitle ref={giantTitleRef} top={svgTopPosition}>
-                    Greatest
-                </GiantTitle >
-                <SvgContainer page={page}>
-                    <Svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 3000 3000" xmlSpace="preserve">
-                        <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="1543.491" y1="1474.8508" x2="2952.8528" y2="659.8721">
-                            <stop offset="0" style={{ stopColor: '#131217' }}></stop>
-                            <stop offset="1" style={{ stopColor: '#292A33' }}></stop>
-                        </linearGradient>
-                        <path className="st0" d="M0,3000h3000V0c0,0-540,0-570.14,0C2071,0,1861.65,130,1500.33,130C1138.55,130,929,0,569.66,0  C539.99,0,0,0,0,0V3000L0,3000z"></path>
-                    </Svg>
-                </SvgContainer>
-                <CompanyName>
-                    <a href="https://deepcolt.com" target="_blank" rel="noreferrer">
-                        <img src={deepcolt} alt="Deepcolt logo" />
-                    </a>
-                </CompanyName>
-                <SectionTitle ref={sectionTitleRef}>
-                    <img src={titleIcons[page]} alt="Chat" />
-                    <div>
-                        <h1>{sectionsTitleTexts[page]}</h1>
-                        <p>{sectionsDescriptionTexts[page]}</p>
-                    </div>
-                </SectionTitle>
-                <SectionNumeratedTitle ref={sectionNumTitleRef}>
-                    <h1>0{page + 1}</h1>
-                    <h1>{sectionsNumeratedTitleTexts[page].top}<br />{sectionsNumeratedTitleTexts[page].bottom}</h1>
-                </SectionNumeratedTitle>
-                <DownloadSection ref={downloadSectionRef}>
-                    <img src={ios} alt="App Store" />
-                    <img src={android} alt="play Store" />
-                </DownloadSection>
-                <SlideControls>
-                    <SlideControl onClick={(e) => handleTransition(0)} selected={page === 0}></SlideControl>
-                    <SlideControl onClick={(e) => handleTransition(1)} selected={page === 1}></SlideControl>
-                    <SlideControl onClick={(e) => handleTransition(2)} selected={page === 2}></SlideControl>
-                </SlideControls>
-                <PhoneContainer>
-                    <ScreenShot ref={screenShotOneRef} src={screen1} grayscale={oldPage === 0} selected={page === 0} alt="Screen One" />
-                    <ScreenShot ref={screenShotTwoRef} src={screen2} grayscale={oldPage === 1} selected={page === 1} alt="Screen Two" />
-                    <ScreenShot ref={screenShotThreeRef} src={screen3} grayscale={oldPage === 2} selected={page === 2} alt="Screen Three" />
-                    <img src={iphone} alt="Iphone" />
-                </PhoneContainer>
-            </Main>
-        </Container>
-    );
+  const handleSwipe = useCallback((event: TouchEvent) => {
+    setTouchStartY(event.changedTouches[0].clientY);
+  }, []);
+
+  const handleSwipeEnd = useCallback((event: TouchEvent) => {
+    const touchendX = event.changedTouches[0].clientY;
+    if (touchendX < touchstartY && isMobile) {
+      handleTransition(page + 1);
+    } else if (isMobile) {
+      handleTransition(page - 1);
+    }
+  }, [handleTransition, page, touchstartY]);
+
+  useEffect(() => {
+    document.addEventListener('touchstart', handleSwipe);
+
+    document.addEventListener('touchend', handleSwipeEnd);
+    return () => {
+      document.removeEventListener('touchstart', handleSwipe);
+      document.removeEventListener('touchend', handleSwipeEnd);
+    }
+  }, [handleSwipe, handleSwipeEnd]);
+
+  useEffect(() => {
+    document.title = "Bongola Chat";
+  }, []);
+
+  return (
+    <Container>
+      <Main>
+        <MainOverlay />
+        <GiantTitle ref={giantTitleRef} top={svgTopPosition}>
+          Greatest
+        </GiantTitle >
+        <SvgContainer page={page}>
+          <Svg ref={svgRef} xmlns="http://www.w3.org/2000/svg" xmlnsXlink="http://www.w3.org/1999/xlink" version="1.1" x="0px" y="0px" viewBox="0 0 3000 3000" xmlSpace="preserve">
+            <linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="1543.491" y1="1474.8508" x2="2952.8528" y2="659.8721">
+              <stop offset="0" style={{ stopColor: '#131217' }}></stop>
+              <stop offset="1" style={{ stopColor: '#292A33' }}></stop>
+            </linearGradient>
+            <path className="st0" d="M0,3000h3000V0c0,0-540,0-570.14,0C2071,0,1861.65,130,1500.33,130C1138.55,130,929,0,569.66,0  C539.99,0,0,0,0,0V3000L0,3000z"></path>
+          </Svg>
+        </SvgContainer>
+        <CompanyName>
+          <a href="https://deepcolt.com" target="_blank" rel="noreferrer">
+            <img src={deepcolt} alt="Deepcolt logo" />
+          </a>
+        </CompanyName>
+        <SectionTitle ref={sectionTitleRef}>
+          <img src={titleIcons[page]} alt="Chat" />
+          <div>
+            <h1>{sectionsTitleTexts[page]}</h1>
+            <p>{sectionsDescriptionTexts[page]}</p>
+          </div>
+        </SectionTitle>
+        <SectionNumeratedTitle ref={sectionNumTitleRef}>
+          <h1>0{page + 1}</h1>
+          <h1>{sectionsNumeratedTitleTexts[page].top}<br />{sectionsNumeratedTitleTexts[page].bottom}</h1>
+        </SectionNumeratedTitle>
+        <DownloadSection ref={downloadSectionRef}>
+          <img src={ios} alt="App Store" />
+          <img src={android} alt="play Store" />
+        </DownloadSection>
+        <SlideControls>
+          <SlideControl onClick={(e) => handleTransition(0)} selected={page === 0}></SlideControl>
+          <SlideControl onClick={(e) => handleTransition(1)} selected={page === 1}></SlideControl>
+          <SlideControl onClick={(e) => handleTransition(2)} selected={page === 2}></SlideControl>
+        </SlideControls>
+        <PhoneContainer>
+          <ScreenShot ref={screenShotOneRef} src={screen1} grayscale={oldPage === 0} selected={page === 0} alt="Screen One" />
+          <ScreenShot ref={screenShotTwoRef} src={screen2} grayscale={oldPage === 1} selected={page === 1} alt="Screen Two" />
+          <ScreenShot ref={screenShotThreeRef} src={screen3} grayscale={oldPage === 2} selected={page === 2} alt="Screen Three" />
+          <img src={iphone} alt="Iphone" />
+        </PhoneContainer>
+      </Main>
+    </Container>
+  );
 }
