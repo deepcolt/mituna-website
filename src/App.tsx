@@ -1,4 +1,4 @@
-import React, { CSSProperties, Suspense, useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
 import {
   BrowserRouter,
   Route,
