@@ -4,7 +4,7 @@ L’application Mituna a été conçue pour être amusante et divertissante pour
 
 ## Informations recueillies 
 
-Nous collectons des informations à partir de votre compte Mituna, de votre usage de l’application ainsi que de votre participation aux compétitions en ligne.
+Nous collectons des informations à partir de votre compte Mituna, de votre usage de l’application.
 
 ## Informations de votre compte
 
@@ -24,10 +24,10 @@ Nous utilisons les informations que nous collectons pour améliorer votre expér
 
 ## Partage des informations
 
-Nous ne partageons pas les informations que nous collectons à des fins commerciales ou publicitaires. Nous pouvons partager vos informations avec des tiers pour vous fournir des services et des informations que vous avez demandé. Nous pouvons également divulguer des informations personnelles si la loi l’exige.
+Nous ne partageons pas les informations que nous collectons à des fins commerciales ou publicitaires. Nous pouvons partager vos informations avec des tiers pour vous fournir des services et des informations que vous avez demandé. Nous pouvons également divulguer des informations si la loi l’exige.
 
 ## Sécurité
 
 Nous prenons des mesures pour protéger vos informations contre l’accès ou l’utilisation non autorisés, la divulgation, la perte ou la destruction. Nous n’utilisons pas de système de stockage connecté à Internet pour conserver vos informations et nous protégeons vos informations à l’aide de techniques de sécurité avancées.
 
-Si vous avez des questions sur notre politique de confidentialité, veuillez nous contacter à l’adresse suivante : [omasuaku@gmail.com](mailto:omasuaku@gmail.com).
+Si vous avez des questions sur notre politique de confidentialité, veuillez nous contacter à l’adresse suivante : [omasuaku@gmail.com](mailto:omasuaku@gmail.com)
