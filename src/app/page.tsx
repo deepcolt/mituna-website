@@ -24,24 +24,24 @@ import Link from 'next/link'
 
 export default function Home() {
   const playStoreUrl =
-    'https://play.google.com/store/apps/details?id=com.deepcolt.mituna'
-  const appStoreUrl =
-    'https://apps.apple.com/store/apps/details?id=com.deepcolt.mituna'
+    'https://play.google.com/store/apps/details?id=deepcolt.com.mituna'
+  // const appStoreUrl =
+  //   'https://apps.apple.com/store/apps/details?id=com.deepcolt.mituna'
 
   const sectionsTitleTexts: string[] = [
     'Fluide et Interactive',
     'Défiez-vous',
-    'Compétition en ligne'
+    'Question du jour'
   ]
   const sectionsDescriptionTexts: string[] = [
     'Mituna veut être une application fun et une expérience utilisateur incroyable.',
     'Défiez vos connaissances avec notre collection de questions captivantes.',
-    'Vos connaissances sont récompensées, il y a toujours un gagnant toutes les semaines.'
+    'Chaque jour, une nouvelle question est posée.'
   ]
   const sectionsNumeratedTitleTexts = [
     { top: 'Application', bottom: 'fun' },
     { top: 'Passez', bottom: 'un bon moment' },
-    { top: 'Gagnez', bottom: 'des prix' }
+    { top: 'Gagnez', bottom: 'en connaissance' }
   ]
   const titleIcons: string[] = [
     '/assets/images/icons8-quiz-40.png',
@@ -249,14 +249,14 @@ export default function Home() {
           </h1>
         </SectionNumeratedTitle>
         <DownloadSection ref={downloadSectionRef}>
-          <Link href={appStoreUrl} target="_blank">
+          {/* <Link href={appStoreUrl} target="_blank">
             <Image
               src="/assets/images/ios.png"
               alt="App Store"
               width={150}
               height={50}
             />
-          </Link>
+          </Link> */}
           <Link href={playStoreUrl} target="_blank">
             <Image
               src="/assets/images/android.png"
