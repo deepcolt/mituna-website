@@ -2,7 +2,7 @@
 
 L’application Mituna a été conçue pour être amusante et divertissante pour les utilisateurs. Nous prenons très au sérieux la protection de votre vie privée et reconnaissons l’importance de protéger vos informations personnelles. Dans cette politique de confidentialité, nous vous expliquons quelles informations nous recueillons, comment nous les utilisons, et comment nous les protégeons. La présente politique s’applique à tous les utilisateurs de l’application Mituna, qu’ils soient adultes ou enfants.
 
-## Informations recueillies 
+## Informations recueillies
 
 Nous collectons des informations à partir de votre compte Mituna, de votre usage de l’application.
 

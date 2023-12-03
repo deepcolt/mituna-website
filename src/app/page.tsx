@@ -19,7 +19,7 @@ import {
   SlideControl,
   PhoneContainer,
   ScreenShot
-} from './components/page.styles'
+} from '../components/page.styles'
 import Link from 'next/link'
 
 export default function Home() {

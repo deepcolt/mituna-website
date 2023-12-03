@@ -15,7 +15,7 @@ export default function Loader() {
     >
       <Image
         src="/assets/images/icon.png"
-        alt="Bongola Chat logo"
+        alt="Mituna logo"
         width={50}
         height={50}
         style={{ marginBottom: '30px' }}
