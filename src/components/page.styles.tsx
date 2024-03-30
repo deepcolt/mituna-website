@@ -130,43 +130,6 @@ export const CompanyName = styled.div`
   }
 `
 
-export const SectionTitle = styled.div`
-  position: absolute;
-  top: 20%;
-  left: 8%;
-  display: flex;
-  color: white;
-  opacity: 0;
-
-  & img {
-    width: 40px;
-    height: 40px;
-    margin-right: 40px;
-  }
-
-  & p {
-    width: 50%;
-    margin-top: 20px;
-    color: rgba(255, 255, 255, 0.7);
-  }
-
-  @media screen and (max-width: 768px) {
-    top: 10%;
-    left: 4%;
-
-    & img {
-      width: 40px;
-      height: 40px;
-      margin-right: 20px;
-    }
-
-    & p {
-      width: 90%;
-      margin-top: 10px;
-    }
-  }
-`
-
 export const SectionNumeratedTitle = styled.div`
   position: absolute;
   bottom: 20%;
@@ -195,12 +158,12 @@ export const DownloadSection = styled.div`
   bottom: 20px;
   width: 100%;
   display: flex;
-  opacity: 0;
   justify-content: center;
   align-items: center;
 
   & img {
     margin: 0 20px;
+    object-fit: contain;
   }
 
   @media screen and (max-width: 768px) {
@@ -221,7 +184,6 @@ export const GiantTitle = styled.div<{ top: boolean }>`
   font-size: 10rem;
   font-weight: bold;
   display: flex;
-  opacity: 0;
   justify-content: center;
   align-items: center;
   text-align: center;

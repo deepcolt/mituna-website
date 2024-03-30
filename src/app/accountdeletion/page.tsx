@@ -77,7 +77,7 @@ const Button = styled.button`
 const Page = () => {
   return (
     <Container>
-      <Form>
+      <Form action='/api/delete' method='POST'>
         <Image
           src="/assets/images/icon.png"
           alt="Mituna logo"
@@ -97,14 +97,14 @@ const Page = () => {
         </Paraphrase>
         <Paraphrase>
           <span>Je confirme que je veux supprimer mon compte</span>
-          <Select>
+          <Select required>
             <option value="yes">Oui</option>
             <option value="no">Non</option>
           </Select>
         </Paraphrase>
         <Paraphrase>
           <span>Votre adresse email</span>
-          <Input type="email" placeholder="xxx@gmail.com" />
+          <Input type="email" placeholder="xxx@gmail.com" required />
         </Paraphrase>
         <Paraphrase>
           <Button type="submit">Supprimer mon compte</Button>

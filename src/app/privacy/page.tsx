@@ -3,6 +3,7 @@
 import ReactMarkdown from 'react-markdown'
 import useSWR from 'swr'
 import styled from 'styled-components'
+import { DotLoader } from 'react-spinners'
 
 const Container = styled.div`
   display: flex;
@@ -19,14 +20,29 @@ const Container = styled.div`
   }
 `
 
+const Center = styled.div`
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`
+
 const fetcher = (url: string) => fetch(url).then((res) => res.text())
 
 const Page = () => {
   const { data, error } = useSWR('/api/privacy', fetcher)
   //Handle the error state
-  if (error) return <div>Failed to load</div>
+  if (error) return <Center>Failed to load</Center>
   //Handle the loading state
-  if (!data) return <div>Loading...</div>
+  if (!data) {
+    return (
+      <Center>
+        <DotLoader />
+        <h3>Loading...</h3>
+      </Center>
+    )
+  }
 
   return (
     <Container>
